@@ -1,3 +1,6 @@
+#__author__='FJSOX'
+#__date__='2020-10-15'
+#爬取https://m.acgzone.net/上的漫画，自动爬取所选章节的漫画并存入本地电脑。
 import re
 import requests
 from lxml import etree
@@ -15,9 +18,10 @@ class CRAWLER():
         #初始目录
         self.path="D:\\mydir\\Manga"
         self.chapternum=0#用于记录章节数
-        self.biglist=["D:\\mydir\\Manga\\Chapter6","D:\\mydir\\Manga\\Chapter7"]#用于存放所需下载章节的地址列表
+        self.biglist=[]#用于存放所需下载章节的地址列表
 
-
+    
+    #获取各个章节的url
     def getChapterUrlList(self,url):
         req=requests.get(url)
         selector=etree.HTML(req.text)
@@ -48,11 +52,13 @@ class CRAWLER():
         return urllist
 
 
+    #创建漫画目录
     def makeDir(self):
         if not os.path.exists(self.path):
             os.mkdir(self.path)
 
 
+    #获取所有图片的下载链接
     def getImgUrlList(self,chapterlist,beginnum,endnum):
         # 设置chrome为无界面浏览器
         options = Options()
@@ -66,11 +72,11 @@ class CRAWLER():
         #遍历所选章节列表
         for i in range(beginnum, endnum+1):
             chapterpath=self.path+"\\Chapter{}".format(i)
-            #构建目录
+            #构建章节目录
             if not os.path.exists(chapterpath):
                 os.mkdir(chapterpath)
 
-
+            #记录图片链接
             f=open(chapterpath+"\\ImgUrlList.txt","w+")
 
             pageurllist=[]#图片链接列表
@@ -94,11 +100,11 @@ class CRAWLER():
                 pageurllist.append(src)
                 f.write(src+"\n")
                 print("Get {},{}".format(i,j))
-            
 
                 j=j+1
 
             #print(page+"\n" for page in pageurllist)
+            #将下载连接所在目录放入biglist
             self.biglist.append(chapterpath)
             
             f.close()
@@ -124,13 +130,15 @@ class CRAWLER():
 
     #下载图片
     def downloadImg(self):
-        #获取下载路径
+        #获取下载路径，按章节读取
         for path in self.biglist:
             chapterid=re.search(r"\d+",path).group(0)#章节id
             with open(path+"\\ImgUrlList.txt","r") as f:
                 i=1
                 while True:
                     url=f.readline()
+
+                    #读取结束时退出
                     if url=="":
                         break
                     #写入jpg格式的图片
@@ -144,7 +152,7 @@ class CRAWLER():
 
     def Main(self):
         self.makeDir()
-        chapterlist=self.getChapterUrlList(url)
+        self.getChapterUrlList(url)
         beginnum=int(input("请输入你想要下载的起始章节:"))
         endnum=int(input("请输入你想要下载到的章节:"))
         #biglist=self.getImgUrlList(chapterlist,beginnum,endnum)
