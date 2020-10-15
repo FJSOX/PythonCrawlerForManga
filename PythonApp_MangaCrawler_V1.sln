@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30517.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PythonApp_MangaCrawler_V1", "PythonApp_MangaCrawler_V1.pyproj", "{51B42707-ADAF-40DC-A85D-F614AA5B7B7E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{51B42707-ADAF-40DC-A85D-F614AA5B7B7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51B42707-ADAF-40DC-A85D-F614AA5B7B7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DF4025A6-8785-4D7D-AAB1-0AB6A41A0819}
+	EndGlobalSection
+EndGlobal
