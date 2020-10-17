@@ -8,6 +8,7 @@ import os
 from selenium.webdriver.firefox.options import Options
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+import time
 
 
 #目录页面链接
@@ -86,7 +87,7 @@ class CRAWLER():
                 url = chapterlist[i-1]+"-{}".format(j)+".html"
                 # 利用get请求请求浏览器的一个网页
                 browser.get(url=url)
-                browser.implicitly_wait(0.5) #隐式等待，设置等待时长0.5秒
+                browser.implicitly_wait(1.5) #隐式等待，设置等待时长1.5秒
 
                 if j==1:
                     #获取当前章节页数
@@ -100,6 +101,9 @@ class CRAWLER():
                 pageurllist.append(src)
                 f.write(src+"\n")
                 print("Get {},{}".format(i,j))
+                with open("D:\\mydir\\Manga\\log.txt","a+") as log:
+                    localtime = time.asctime(time.localtime(time.time()))
+                    log.write("\tGet {},{}: ".format(i,j)+localtime)
 
                 j=j+1
 
@@ -108,6 +112,9 @@ class CRAWLER():
             self.biglist.append(chapterpath)
             
             f.close()
+            with open("D:\\mydir\\Manga\\log.txt","a+") as log:
+                    localtime = time.asctime(time.localtime(time.time()))
+                    log.write("{}-OK: ".format(i)+localtime)
 
         # 关闭浏览器
         browser.close()
@@ -152,11 +159,11 @@ class CRAWLER():
 
     def Main(self):
         self.makeDir()
-        self.getChapterUrlList(url)
+        chapterlist=self.getChapterUrlList(url)
         beginnum=int(input("请输入你想要下载的起始章节:"))
         endnum=int(input("请输入你想要下载到的章节:"))
-        #biglist=self.getImgUrlList(chapterlist,beginnum,endnum)
+        self.getImgUrlList(chapterlist,beginnum,endnum)
         self.downloadImg()
-
+            
 cra=CRAWLER()
 cra.Main()
